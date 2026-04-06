@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - Price Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='price')}"></div>
+
+<div class="container">
+    <h1 class="text-center mb-4 text-white text-shadow">Price Tracker - Weekly Changes </h1>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>GPU</th>
+                        <th>Manufacturer</th>
+                        <th>Current Price</th>
+                        <th>Price 1 Week Ago</th>
+                        <th>Change</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="price : ${priceChanges}">
+                        <td>
+                            <strong th:text="${price.modelName}">RTX 5060</strong>
+                        </td>
+                        <td>
+                            <span th:text="${price.manufacturer}"
+                                  th:classappend="${price.manufacturer == 'NVIDIA'} ? 'badge bg-success' : 'badge bg-danger'">
+                                NVIDIA
+                            </span>
+                        </td>
+                        <td>
+                            <strong th:text="${price.currentPrice} + '₪'">2100₪</strong>
+                        </td>
+                        <td>
+                            <span th:if="${price.previousPrice != null}"
+                                  th:text="${price.previousPrice} + '₪'">2300₪</span>
+                            <span th:if="${price.previousPrice == null}" class="text-muted">-</span>
+                        </td>
+                        <td>
+                            <span th:if="${price.changeDirection == '='}" class="badge bg-secondary">
+                                = No Change
+                            </span>
+                            <span th:if="${price.changeDirection == '↑'}"
+                                  th:classappend="'badge bg-' + ${price.changeColor}"
+                                  th:text="${price.changeDirection} + ' +' + ${price.change} + '₪'">
+                                ↑ +50₪
+                            </span>
+                            <span th:if="${price.changeDirection == '↓'}"
+                                  th:classappend="'badge bg-' + ${price.changeColor}"
+                                  th:text="${price.changeDirection} + ' -' + ${price.change} + '₪'">
+                                ↓ -200₪
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${#lists.isEmpty(priceChanges)}" class="alert alert-warning text-center m-4">
+                No price data available
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-light mt-4 shadow border-0">
+        <h5 class="fw-bold">Explanation:</h5>
+        <ul class="mb-0">
+            <li>🟢 <strong>↓ Green</strong> - Price decreased (good time to buy!)</li>
+            <li>🔴 <strong>↑ Red</strong> - Price increased</li>
+            <li>⚪ <strong>=</strong> - No price change</li>
+        </ul>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+</style>
+</body>
+</html>

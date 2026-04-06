@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - Report FPS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='submission')}"></div>
+
+<div class="container">
+    <h1 class="text-center mb-4 mt-4 text-white text-shadow">Community FPS Reports</h1>
+
+    <div th:if="${success != null}" class="alert alert-success text-center shadow border-0">
+        <span th:text="${success}">Success!</span>
+    </div>
+
+    <div th:if="${error != null}" class="alert alert-warning shadow border-0">
+        <p th:text="${error}">Error</p>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+            <form method="get" action="/submission" id="selectForm">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Select GPU:</label>
+                    <select name="gpuId" class="form-select shadow-sm" onchange="this.form.submit()" required>
+                        <option value="">Select GPU...</option>
+                        <option th:each="gpu : ${gpus}"
+                                th:value="${gpu.id}"
+                                th:text="${gpu.modelName}"
+                                th:selected="${selectedGpuId == gpu.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div th:if="${games != null}" class="mb-3">
+                    <label class="form-label fw-bold">Select Game:</label>
+                    <select name="game" class="form-select shadow-sm" onchange="this.form.submit()" required>
+                        <option value="">Select game...</option>
+                        <option th:each="game : ${games}"
+                                th:value="${game}"
+                                th:text="${game}"
+                                th:selected="${selectedGame == game}">
+                        </option>
+                    </select>
+                </div>
+            </form>
+
+            <div th:if="${modeInfo != null}">
+                <form method="post" action="/submission/submit">
+                    <input type="hidden" name="gpuId" th:value="${selectedGpuId}">
+                    <input type="hidden" name="game" th:value="${selectedGame}">
+                    <input type="hidden" name="resolution" th:value="${autoResolution}">
+
+                    <div class="alert alert-light mb-3 shadow-sm border-0">
+                        Resolution: <strong th:text="${autoResolution}">1920x1080</strong>
+                        <br>
+                        Your reports today: <strong th:text="${modeInfo.userSubmissionsToday}">0</strong>/3 reports
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Mode:</label>
+
+                        <div th:if="${modeInfo.hasUltra}" class="form-check d-flex align-items-center mb-3 p-3 border rounded bg-white shadow-sm">
+                            <input class="form-check-input me-3" type="radio" name="mode" value="ultra" id="ultra" required style="width: 20px; height: 20px;">
+                            <label class="form-check-label d-flex align-items-center gap-2 flex-wrap w-100" for="ultra">
+                                <strong>Ultra</strong>
+
+                                <span th:if="${modeInfo.cumulativeFps != null}" class="badge bg-warning text-dark">
+                    Cumulative Avg: <span th:text="${modeInfo.cumulativeFps}">142</span> FPS
+                    (<span th:text="${modeInfo.cumulativeCount}">47</span> reports)
+                </span>
+
+                                <span class="badge bg-success">
+                    <span th:text="${modeInfo.ultraSubmissionsToday}">1</span> new reports today
+                </span>
+
+                                <span class="badge bg-info">
+                    <span th:text="${modeInfo.ultraSubmissions}">5</span> pending
+                </span>
+
+                                <a th:if="${modeInfo.ultraSubmissions > 0}"
+                                   th:href="@{/submission/view-reports(gpuId=${selectedGpuId}, game=${selectedGame}, mode='ultra')}"
+                                   class="btn btn-sm btn-outline-primary ms-auto"
+                                   target="_blank">
+                                    👁View Reports
+                                </a>
+                            </label>
+                        </div>
+
+                        <div th:if="${modeInfo.hasLow}" class="form-check d-flex align-items-center mb-3 p-3 border rounded bg-white shadow-sm">
+                            <input class="form-check-input me-3" type="radio" name="mode" value="low" id="low" required style="width: 20px; height: 20px;">
+                            <label class="form-check-label d-flex align-items-center gap-2 flex-wrap w-100" for="low">
+                                <strong>Low</strong>
+
+                                <span th:if="${modeInfo.cumulativeFps != null}" class="badge bg-warning text-dark">
+                    Cumulative Avg: <span th:text="${modeInfo.cumulativeFps}">142</span> FPS
+                    (<span th:text="${modeInfo.cumulativeCount}">47</span> reports)
+                </span>
+
+                                <span class="badge bg-success">
+                    <span th:text="${modeInfo.lowSubmissionsToday}">2</span> new reports today
+                </span>
+
+                                <span class="badge bg-info">
+                    <span th:text="${modeInfo.lowSubmissions}">3</span> pending
+                </span>
+
+                                <a th:if="${modeInfo.lowSubmissions > 0}"
+                                   th:href="@{/submission/view-reports(gpuId=${selectedGpuId}, game=${selectedGame}, mode='low')}"
+                                   class="btn btn-sm btn-outline-primary ms-auto"
+                                   target="_blank">
+                                    👁View Reports
+                                </a>
+                            </label>
+                        </div>
+
+                        <div th:if="${!modeInfo.hasUltra && !modeInfo.hasLow}" class="alert alert-warning shadow-sm border-0">
+                            No FPS data available for this game
+                        </div>
+                    </div>
+
+                    <div th:if="${modeInfo.hasUltra || modeInfo.hasLow}" class="mb-3">
+                        <label class="form-label fw-bold">Your FPS:</label>
+                        <input type="number" name="fps" class="form-control shadow-sm" min="1" max="1000" required placeholder="Enter FPS">
+                    </div>
+
+                    <div th:if="${modeInfo.hasUltra || modeInfo.hasLow}" class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-lg px-5">Submit Report</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-light mt-4 shadow border-0">
+        <h5 class="fw-bold">Instructions:</h5>
+        <ul class="mb-0">
+            <li>Select your GPU and the game you're playing</li>
+            <li>Resolution will be set automatically based on the game</li>
+            <li>Choose mode (Ultra or Low)</li>
+            <li>Enter the FPS you're getting in the game</li>
+            <li>Limit: 3 reports per day per game</li>
+        </ul>
+
+        <hr>
+
+        <p class="mb-0">
+            <strong>Cumulative Average Update:</strong><br>
+            The cumulative average is updated automatically <strong>every day at midnight</strong> and incorporates all new reports from that day.
+            Your reports will be added to the cumulative average in the next update!
+        </p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+</style>
+</body>
+</html>

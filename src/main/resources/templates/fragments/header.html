@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="header" class="navbar navbar-expand-lg navbar-dark bg-primary mb-4 shadow-lg">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img th:src="@{/Logo.png}" alt="Frame Value Logo" height="60" class="me-3">
+      <span class="fw-bold">Frame Value</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'resolution'} ? 'active' : ''" href="/resolution">By Resolution</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'comparison'} ? 'active' : ''" href="/comparison">Compare GPUs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'tier'} ? 'active' : ''" href="/tier">Tier Rankings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'price'} ? 'active' : ''" href="/price">Price Tracker</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'submission'} ? 'active' : ''" href="/submission">Report FPS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:classappend="${currentPage == 'recommendation'} ? 'active' : ''" href="/recommendation">Smart Recommendations</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

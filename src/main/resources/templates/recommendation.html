@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - Smart Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='recommendation')}"></div>
+
+<div class="container">
+    <h1 class="text-center mb-4 mt-4 text-white text-shadow">Find Your Perfect Graphics Card</h1>
+    <p class="text-center text-white-50 mb-5 lead">Answer a few questions and we'll find the most suitable GPU for you!</p>
+
+    <div class="card shadow-lg mb-4 border-0">
+        <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h5 class="mb-0 fw-bold">Select Your Requirements</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="get" action="/recommendation">
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Maximum Budget (₪)</label>
+                    <input type="range" class="form-range" name="budget"
+                           min="1000" max="20000" step="100" value="5000"
+                           oninput="this.nextElementSibling.value = this.value">
+                    <output class="badge bg-primary fs-6">5000</output> ₪
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Resolution</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="resolution"
+                                   id="res1080" value="1080p" checked>
+                            <label class="form-check-label" for="res1080">1080p (Full HD)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="resolution"
+                                   id="res1440" value="1440p">
+                            <label class="form-check-label" for="res1440">1440p (2K)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Gaming Mode</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="mode"
+                                   id="modeBalanced" value="balanced" checked>
+                            <label class="form-check-label" for="modeBalanced">
+                                <strong>Balanced (Recommended)</strong>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="mode"
+                                   id="modeUltra" value="ultra">
+                            <label class="form-check-label" for="modeUltra">Ultra (Maximum Graphics)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="mode"
+                                   id="modeLow" value="low">
+                            <label class="form-check-label" for="modeLow">Low (Maximum Performance)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold mb-3">Games You Play (select at least one)</label>
+                    <div class="row g-3">
+                        <div th:each="game, iterStat : ${availableGames}" class="col-md-3 col-sm-6">
+                            <label class="d-flex align-items-center gap-2 p-3 border rounded bg-white h-100 shadow-sm hover-lift"
+                                   style="cursor: pointer; margin-bottom: 0; transition: all 0.3s;"
+                                   th:for="'game' + ${iterStat.index}">
+                                <input class="form-check-input m-0"
+                                       type="checkbox"
+                                       name="games"
+                                       th:value="${game}"
+                                       th:id="'game' + ${iterStat.index}"
+                                       th:checked="${selectedGames != null && selectedGames.contains(game)}"
+                                       style="width: 20px; height: 20px; cursor: pointer; flex-shrink: 0;">
+                                <span class="flex-grow-1" th:text="${game}">Game</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-5 shadow-lg">
+                        Find Recommendations
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${recommendations != null && !recommendations.isEmpty()}">
+
+        <div class="alert alert-light text-center mb-4 shadow border-0">
+            <strong>Tested</strong>
+            <span class="badge bg-primary fs-5" th:text="${testedGpus}">5</span>
+            GPUs out of
+            <span class="badge bg-secondary fs-5" th:text="${totalGpus}">8</span>
+            GPUs in the system
+        </div>
+
+        <h2 class="text-center mb-4 text-white text-shadow">TOP 3 Recommended GPUs for You</h2>
+
+        <div th:each="rec, iterStat : ${recommendations}" class="card shadow-lg mb-4 border-0">
+            <div class="card-header"
+                 th:classappend="${iterStat.index == 0} ? 'bg-warning' : (${iterStat.index == 1} ? 'bg-secondary text-white' : 'bg-light')">
+                <h5 class="mb-0 fw-bold d-flex align-items-center gap-2">
+                    <span th:if="${iterStat.index == 0}" class="badge bg-warning text-dark px-3 py-2">1st</span>
+                    <span th:if="${iterStat.index == 1}" class="badge bg-light text-dark px-3 py-2" style="background: linear-gradient(135deg, #c0c0c0, #e8e8e8) !important;">2nd</span>
+                    <span th:if="${iterStat.index == 2}" class="badge text-white px-3 py-2" style="background: linear-gradient(135deg, #cd7f32, #b8860b) !important;">3rd</span>
+                    <span th:text="${rec.gpuName}">RTX 4060 Ti</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Price:</strong> <span class="text-primary fs-4 fw-bold" th:text="${rec.price} + ' ₪'">1,899 ₪</span></p>
+                        <p><strong>Match Score:</strong>
+                            <span class="badge bg-success fs-6" th:text="${rec.matchScore} + '/100'">95/100</span>
+                        </p>
+                        <p><strong>Average FPS:</strong>
+                            <span class="text-info fw-bold" th:text="${#numbers.formatDecimal(rec.averageFps, 1, 1)} + ' FPS'">124 FPS</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Manufacturer:</strong>
+                            <span class="badge"
+                                  th:classappend="${rec.manufacturer == 'NVIDIA'} ? 'bg-success' : 'bg-danger'"
+                                  th:text="${rec.manufacturer}">NVIDIA</span>
+                        </p>
+                        <p><strong>Price-Performance Ratio:</strong>
+                            <span th:text="${#numbers.formatDecimal(rec.pricePerformanceRatio, 1, 3)}">0.065</span>
+                        </p>
+
+                        <p>
+                            <strong>Benchmark Coverage:</strong>
+                            <span th:if="${rec.hasFullCoverage()}" class="badge bg-success">
+                            <span th:text="${rec.gamesWithBenchmarks} + '/' + ${rec.totalGamesSelected}">3/3</span> Games
+                        </span>
+                            <span th:unless="${rec.hasFullCoverage()}" class="badge bg-warning text-dark">
+                            <span th:text="${rec.gamesWithBenchmarks} + '/' + ${rec.totalGamesSelected}">2/3</span> Games
+                        </span>
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div th:if="${!rec.hasFullCoverage()}" class="alert alert-warning shadow-sm border-0">
+                    <strong>Note:</strong>
+                    The average is based on <strong th:text="${rec.gamesWithBenchmarks}">2</strong> out of
+                    <strong th:text="${rec.totalGamesSelected}">3</strong> games you selected.
+                    <br>
+                    <small class="text-muted">
+                        Missing data for:
+                        <span th:text="${#strings.listJoin(rec.missingGames, ', ')}">RDR2</span>
+                    </small>
+                </div>
+
+                <div class="alert alert-info mb-0 shadow-sm border-0">
+                    <strong>Why Recommended:</strong> This GPU offers excellent performance within your budget and achieves high FPS in the games you selected!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${recommendations != null && recommendations.isEmpty()}"
+         class="alert alert-warning text-center shadow border-0">
+        No GPUs found matching your requirements. Try expanding your budget or changing the resolution.
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .hover-lift:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+    }
+</style>
+</body>
+</html>

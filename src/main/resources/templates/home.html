@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - Compare Graphics Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='home')}"></div>
+
+<div class="container mt-4">
+    <!-- Title -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-white mb-3 text-shadow">Find the Best Value Graphics Card</h1>
+        <p class="lead text-white-50">FPS/₪ Comparison - Best Bang for Your Buck!</p>
+    </div>
+
+    <div class="alert alert-light text-center mb-4 shadow-lg border-0">
+        <strong>All benchmarks tested with CPU:</strong>
+        <span class="badge bg-dark fs-6 ms-2">Ryzen 5 7500F</span>
+        <br>
+        <small class="text-muted mt-2 d-block">
+             Some GPUs don't show GB because the information is missing from benchmark videos
+        </small>
+    </div>
+
+    <div class="card mb-4 shadow-lg border-0">
+        <div class="card-header bg-gradient text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h5 class="mb-0 fw-bold"> Filter & Search</h5>
+        </div>
+        <div class="card-body p-4">
+            <form method="get" action="/" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Manufacturer</label>
+                    <select name="manufacturer" class="form-select shadow-sm">
+                        <option value="">All</option>
+                        <option value="NVIDIA" th:selected="${manufacturer == 'NVIDIA'}">NVIDIA</option>
+                        <option value="AMD" th:selected="${manufacturer == 'AMD'}">AMD</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Max Budget (₪)</label>
+                    <input type="number"
+                           name="budget"
+                           class="form-control shadow-sm"
+                           th:value="${budget}"
+                           placeholder="0-20,000 ₪"
+                           min="0"
+                           max="20000">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Sort By</label>
+                    <select name="sortBy" class="form-select shadow-sm">
+                        <option value="fps_per_shekel" th:selected="${sortBy == 'fps_per_shekel' || sortBy == null}">
+                            FPS/₪ (Recommended)
+                        </option>
+                        <option value="price_asc" th:selected="${sortBy == 'price_asc'}">
+                            Price (Low → High)
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <button type="submit" class="btn btn-primary w-100 shadow"> Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0 fw-bold"> Results (<span th:text="${#lists.size(gpus)}">0</span> GPUs)</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>GPU Name</th>
+                        <th>Manufacturer</th>
+                        <th>Price (₪)</th>
+                        <th>Recommended Resolution</th>
+                        <th>FPS/₪</th>
+                        <th>Product Link</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="gpu : ${gpus}">
+                        <td>
+                            <strong th:text="${gpu.modelName}">RTX 4090</strong>
+                        </td>
+                        <td>
+                            <span th:text="${gpu.manufacturer}"
+                                  th:classappend="${gpu.manufacturer == 'NVIDIA'} ? 'badge bg-success' : 'badge bg-danger'">
+                                NVIDIA
+                            </span>
+                        </td>
+                        <td>
+                            <th:block th:with="price=${priceMap != null ? priceMap[gpu.id] : null}">
+                                <strong th:if="${price != null and price.currentPrice != null}"
+                                        th:text="${#numbers.formatDecimal(price.currentPrice, 0, 0)} + ' ₪'">
+                                    2000 ₪
+                                </strong>
+                                <strong th:if="${price == null or price.currentPrice == null}"
+                                        th:text="${#numbers.formatDecimal(gpu.launchPrice, 0, 0)} + ' ₪'"
+                                        class="text-muted">
+                                    2000 ₪
+                                </strong>
+                            </th:block>
+                        </td>
+                        <td>
+                            <span class="badge bg-info" th:text="${gpu.recommendedResolution}">1080p</span>
+                        </td>
+                        <td>
+                            <span th:class="${fpsMap[gpu.id] >= 0.050 ? 'badge bg-success fs-6' :
+                                             (fpsMap[gpu.id] >= 0.040 ? 'badge bg-primary fs-6' : 'badge bg-warning text-dark fs-6')}"
+                                  th:text="${#numbers.formatDecimal(fpsMap[gpu.id], 1, 3)}">
+                                0.050
+                            </span>
+                        </td>
+                        <td>
+                            <th:block th:with="price=${priceMap != null ? priceMap[gpu.id] : null}">
+                                <a th:if="${price != null and price.israelProductUrl != null and !#strings.isEmpty(price.israelProductUrl)}"
+                                   th:href="${price.israelProductUrl}"
+                                   target="_blank"
+                                   class="btn btn-sm btn-success shadow-sm">
+                                    🛒 Buy Now
+                                </a>
+
+                                <span th:if="${price == null or price.israelProductUrl == null or #strings.isEmpty(price.israelProductUrl)}"
+                                      class="badge bg-secondary">
+                                    Out of Stock
+                                </span>
+                            </th:block>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${#lists.isEmpty(gpus)}" class="alert alert-warning text-center m-4">
+                 No GPUs match your selected filters. Try expanding your budget or changing the filters.
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-light mt-4 shadow border-0">
+        <h5 class="fw-bold">What is FPS/₪?</h5>
+        <p class="mb-0">
+            <strong>FPS/₪</strong> = How many Frames Per Second you get for every shekel you spend!
+            <br>
+            The higher the number → <strong>Better value for money!</strong>
+            <br>
+            <small class="text-muted">
+                🟢 0.050+ = Excellent | 🔵 0.040-0.049 = Good | 🟡 Below 0.040 = Average
+            </small>
+            <br>
+            <small class="text-muted mt-2 d-block">
+                <strong>Calculation Method:</strong> Average FPS from all benchmarks (prefer Ultra, if missing - use Low) ÷ Current Price
+            </small>
+        </p>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .bg-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+</style>
+</body>
+</html>

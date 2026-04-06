@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - FPS Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='submission')}"></div>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white text-shadow">
+            FPS Reports -
+            <span th:text="${game}">Black Myth: Wukong</span>
+            (<span th:text="${mode == 'ultra' ? 'Ultra' : 'Low'}">Ultra</span>)
+        </h2>
+    </div>
+
+    <div th:if="${totalReports > 0}" class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Average FPS</h6>
+                    <h2 class="text-primary mb-0 fw-bold">
+                        <span th:text="${avgFps}">40</span>
+                        <small>FPS</small>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Maximum</h6>
+                    <h2 class="text-success mb-0 fw-bold">
+                        <span th:text="${maxFps}">40</span>
+                        <small>FPS</small>
+                    </h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg border-0">
+                <div class="card-body">
+                    <h6 class="text-muted">Minimum</h6>
+                    <h2 class="text-danger mb-0 fw-bold">
+                        <span th:text="${minFps}">40</span>
+                        <small>FPS</small>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-lg border-0">
+        <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h5 class="mb-0 fw-bold">
+                Report List (<span th:text="${totalReports}">0</span> reports)
+            </h5>
+        </div>
+        <div class="card-body">
+
+            <div th:if="${totalReports == 0}" class="alert alert-warning text-center shadow-sm border-0">
+                No reports yet
+            </div>
+
+            <div th:if="${totalReports > 0}" class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-dark">
+                    <tr>
+                        <th class="text-center">Report</th>
+                        <th class="text-center">FPS</th>
+                        <th class="text-center">Date & Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="report, iterStat : ${reports}">
+                        <td class="text-center" th:text="${iterStat.index + 1}">1</td>
+                        <td class="text-center">
+                            <strong class="text-primary fs-5" th:text="${report.fps}">40</strong>
+                            <small class="text-muted">FPS</small>
+                        </td>
+                        <td class="text-center" th:text="${#temporals.format(report.submittedAt, 'MM/dd/yyyy HH:mm')}">
+                            03/10/2026 04:17
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="text-center mt-4 mb-4">
+        <a th:href="@{/submission(gpuId=${gpuId}, game=${game})}" class="btn btn-secondary btn-lg shadow-lg px-5">
+            ← Back to Report
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+</style>
+</body>
+</html>

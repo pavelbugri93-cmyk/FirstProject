@@ -1,0 +1,5 @@
+# התקן את Playwright
+pip install -r src/main/resources/scripts/requirements.txt
+
+# התקן את הדפדפן של Playwright
+playwright install chromium

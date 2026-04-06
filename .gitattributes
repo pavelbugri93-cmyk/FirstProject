@@ -1,0 +1,86 @@
+# Maven wrapper scripts
+/mvnw text eol=lf
+*.cmd text eol=crlf
+
+# Java files
+*.java text diff=java
+*.kt text diff=kotlin
+*.groovy text diff=java
+
+# Configuration files
+*.properties text
+*.xml text
+*.yml text
+*.yaml text
+*.json text
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Python scripts (for price scraper)
+*.py text eol=lf
+
+# Web files
+*.html text diff=html
+*.css text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+
+# SQL files
+*.sql text
+
+# Markdown
+*.md text
+
+# Documentation
+*.txt text
+AUTHORS text
+CHANGELOG text
+CHANGES text
+CONTRIBUTING text
+COPYING text
+copyright text
+*COPYRIGHT* text
+INSTALL text
+license text
+LICENSE text
+NEWS text
+readme text
+*README* text
+TODO text
+
+# Docker
+Dockerfile text eol=lf
+*.dockerfile text eol=lf
+docker-compose.yml text eol=lf
+*.dockerignore text
+
+# Git
+.gitattributes text
+.gitignore text
+.gitkeep text
+
+# Binary files (never modify)
+*.jar binary
+*.war binary
+*.ear binary
+*.zip binary
+*.tar.gz binary
+*.rar binary
+
+# Images
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.svg text
+
+# Fonts
+*.ttf binary
+*.eot binary
+*.woff binary
+*.woff2 binary

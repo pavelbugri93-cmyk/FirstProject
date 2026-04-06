@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - Filter by Resolution</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='resolution')}"></div>
+
+<div class="container">
+    <h1 class="text-center mb-5 text-white text-shadow">GPUs by Recommended Resolution</h1>
+
+    <div class="alert alert-light text-center mb-4 shadow-lg border-0" role="alert">
+        <strong>Data Explanation:</strong><br>
+        <strong>Ultra FPS</strong> - FPS at settings detailed in the "Settings" column<br>
+        <strong>Low FPS</strong> - FPS at Low settings only<br>
+        <strong>Community FPS</strong> - Average user reports (shown only if 10+ reports exist)
+    </div>
+
+    <div th:each="entry : ${gpusByResolution}">
+        <h2 class="mb-3">
+            <span th:text="${entry.key}" class="badge bg-light text-dark fs-4 shadow">1080p</span>
+        </h2>
+
+        <div class="card mb-5 shadow-lg border-0">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>GPU Name</th>
+                        <th>Manufacturer</th>
+                        <th>Price (₪)</th>
+                        <th>Average FPS</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="gpu, iterStat : ${entry.value}">
+                        <tr class="gpu-row"
+                            data-bs-toggle="collapse"
+                            th:data-bs-target="'#benchmarks-' + ${entry.key} + '-' + ${iterStat.index}"
+                            style="cursor: pointer;">
+                            <td>
+                                <strong th:text="${gpu.modelName}">RTX 4090</strong>
+                            </td>
+                            <td>
+                                <span th:text="${gpu.manufacturer}"
+                                      th:classappend="${gpu.manufacturer == 'NVIDIA'} ? 'badge bg-success' : 'badge bg-danger'">
+                                    NVIDIA
+                                </span>
+                            </td>
+                            <td>
+                                <th:block th:with="price=${priceMap[entry.key][gpu.id]}">
+                                    <strong th:if="${price != null and price.currentPrice != null}"
+                                            th:text="${#numbers.formatDecimal(price.currentPrice, 0, 2)} + ' ₪'">
+                                        2000 ₪
+                                    </strong>
+                                    <strong th:if="${price == null or price.currentPrice == null}"
+                                            th:text="${#numbers.formatDecimal(gpu.launchPrice, 0, 2)} + ' ₪'"
+                                            class="text-muted">
+                                        2000 ₪
+                                    </strong>
+                                </th:block>
+                            </td>
+                            <td>
+                                <span class="badge bg-primary"
+                                      th:text="${#numbers.formatDecimal(fpsMap[entry.key][gpu.id], 1, 0)} + ' FPS'">
+                                    120 FPS
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                <span class="badge bg-secondary">▼ Details</span>
+                            </td>
+                        </tr>
+
+                        <tr class="collapse" th:id="'benchmarks-' + ${entry.key} + '-' + ${iterStat.index}">
+                            <td colspan="5" class="benchmark-details p-4 bg-light">
+                                <h5 class="mb-3 fw-bold">Benchmarks for <span th:text="${gpu.modelName}">RTX 5060</span></h5>
+
+                                <div class="mb-3 d-flex gap-2">
+                                    <a th:href="${urlMap[entry.key][gpu.id]}"
+                                       target="_blank"
+                                       class="btn btn-danger shadow-sm">
+                                        ▶️ Watch Full Video on YouTube
+                                    </a>
+                                    <a th:href="@{/submission(gpuId=${gpu.id})}"
+                                       class="btn btn-success shadow-sm">
+                                        Report FPS
+                                    </a>
+                                </div>
+
+                                <table class="table table-sm table-bordered shadow-sm">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>Game</th>
+                                        <th>Low FPS</th>
+                                        <th>Community FPS (Low)</th>
+                                        <th>Ultra FPS</th>
+                                        <th>Community FPS (Ultra)</th>
+                                        <th>Settings</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="benchmark : ${benchmarksMap[entry.key][gpu.id]}">
+                                        <td><strong th:text="${benchmark.gameName}">CS 2.0</strong></td>
+
+                                        <td>
+                                            <span th:if="${benchmark.fpsLow != null}"
+                                                  th:text="${benchmark.fpsLow}"
+                                                  class="badge bg-info">238</span>
+                                            <span th:if="${benchmark.fpsLow == null}" class="text-muted">-</span>
+                                        </td>
+
+                                        <td th:with="communityMap=${communityFpsMap[entry.key][gpu.id][benchmark.gameName]}">
+                                            <span th:if="${benchmark.fpsLow == null}" class="text-muted small">
+                                                None yet
+                                            </span>
+
+                                            <th:block th:if="${benchmark.fpsLow != null}">
+                                                <span th:if="${communityMap != null && communityMap['low'] != null && communityMap['low'].hasEnough}"
+                                                      class="badge bg-warning text-dark">
+                                                    Avg: <span th:text="${communityMap['low'].averageFps}">146</span> FPS
+                                                </span>
+
+                                                <span th:if="${communityMap != null && communityMap['low'] != null && !communityMap['low'].hasEnough}"
+                                                      class="text-muted">
+                                                    <span th:text="${communityMap['low'].currentSubmissions}">3</span>/10
+                                                </span>
+
+                                                <span th:if="${communityMap == null || communityMap['low'] == null}" class="text-muted">
+                                                    0/10
+                                                </span>
+                                            </th:block>
+                                        </td>
+
+                                        <td>
+                                            <span th:if="${benchmark.fpsUltra != null}"
+                                                  th:text="${benchmark.fpsUltra}"
+                                                  class="badge bg-success">563</span>
+                                            <span th:if="${benchmark.fpsUltra == null}" class="text-muted">-</span>
+                                        </td>
+
+                                        <td th:with="communityMap=${communityFpsMap[entry.key][gpu.id][benchmark.gameName]}">
+                                            <span th:if="${benchmark.fpsUltra == null}" class="text-muted small">
+                                                None yet
+                                            </span>
+
+                                            <th:block th:if="${benchmark.fpsUltra != null}">
+                                                <span th:if="${communityMap != null && communityMap['ultra'] != null && communityMap['ultra'].hasEnough}"
+                                                      class="badge bg-warning text-dark">
+                                                    Avg: <span th:text="${communityMap['ultra'].averageFps}">146</span> FPS
+                                                </span>
+
+                                                <span th:if="${communityMap != null && communityMap['ultra'] != null && !communityMap['ultra'].hasEnough}"
+                                                      class="text-muted">
+                                                    <span th:text="${communityMap['ultra'].currentSubmissions}">3</span>/10
+                                                </span>
+
+                                                <span th:if="${communityMap == null || communityMap['ultra'] == null}" class="text-muted">
+                                                    0/10
+                                                </span>
+                                            </th:block>
+                                        </td>
+
+                                        <td>
+                                            <small class="text-muted" th:text="${benchmark.settingsDetails}">Low</small>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${#maps.isEmpty(gpusByResolution)}" class="alert alert-warning text-center shadow border-0">
+        No GPUs with recommended resolution
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .gpu-row:hover {
+        background-color: rgba(102, 126, 234, 0.1) !important;
+    }
+</style>
+</body>
+</html>

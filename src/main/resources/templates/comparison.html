@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame Value - GPU Comparison</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/framevalue.css}">
+</head>
+<body style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh;">
+
+<div th:replace="~{fragments/header :: header(currentPage='comparison')}"></div>
+
+<div class="container">
+    <h1 class="text-center mb-5 text-white text-shadow">GPU Comparison</h1>
+
+    <div class="alert alert-light text-center mb-4 shadow-lg border-0" role="alert">
+        <strong>Explanation:</strong><br>
+        <strong>Ultra</strong> - Comparison at high settings (Epic, Very High, ULTRA, etc.)<br>
+        <strong>Low</strong> - Comparison at Low settings only
+    </div>
+
+    <div class="card mb-4 shadow-lg border-0">
+        <div class="card-body p-4">
+            <form method="get" action="/comparison">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Resolution</label>
+                        <select name="resolution" class="form-select shadow-sm" onchange="this.form.submit()">
+                            <option value="1080p" th:selected="${selectedResolution == '1080p'}">1080p</option>
+                            <option value="1440p" th:selected="${selectedResolution == '1440p'}">1440p</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">FPS Mode</label>
+                        <select name="mode" class="form-select shadow-sm" onchange="this.form.submit()">
+                            <option value="ultra" th:selected="${selectedMode == 'ultra'}">Ultra</option>
+                            <option value="low" th:selected="${selectedMode == 'low'}">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h5 class="mb-3 fw-bold">Select 2 GPUs to Compare:</h5>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">GPU 1</label>
+                        <select name="gpu1" class="form-select shadow-sm" required>
+                            <option value="">Select GPU...</option>
+                            <option th:each="gpu : ${availableGpus}"
+                                    th:value="${gpu.id}"
+                                    th:text="${gpu.modelName + ' (' + (priceMap[gpu.id] != null and priceMap[gpu.id].currentPrice != null ? #numbers.formatDecimal(priceMap[gpu.id].currentPrice, 0, 0) : #numbers.formatDecimal(gpu.launchPrice, 0, 0)) + '₪)'}"
+                                    th:selected="${selectedGpu1 == gpu.id}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">GPU 2</label>
+                        <select name="gpu2" class="form-select shadow-sm" required>
+                            <option value="">Select GPU...</option>
+                            <option th:each="gpu : ${availableGpus}"
+                                    th:value="${gpu.id}"
+                                    th:text="${gpu.modelName + ' (' + (priceMap[gpu.id] != null and priceMap[gpu.id].currentPrice != null ? #numbers.formatDecimal(priceMap[gpu.id].currentPrice, 0, 0) : #numbers.formatDecimal(gpu.launchPrice, 0, 0)) + '₪)'}"
+                                    th:selected="${selectedGpu2 == gpu.id}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg shadow-lg px-5">Compare GPUs</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:if="${comparisonResult != null}" class="card shadow-lg border-0">
+        <div class="card-header text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <h3 class="mb-0 text-center fw-bold">
+                <span th:text="${comparisonResult.gpu1.modelName}">RTX 5060</span>
+                <span th:text="${comparisonResult.gpu2.modelName}">RTX 4070</span>
+                | <span th:text="${comparisonResult.resolution}">1080p</span>
+                <span th:text="${comparisonResult.mode == 'ultra' ? 'Ultra' : 'Low'}">Ultra</span>
+            </h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Game</th>
+                        <th th:text="${comparisonResult.gpu1.modelName}">GPU 1</th>
+                        <th th:text="${comparisonResult.gpu2.modelName}">GPU 2</th>
+                        <th>Difference</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="game : ${comparisonResult.gameComparisons}">
+                        <td><strong th:text="${game.gameName}">CS 2.0</strong></td>
+                        <td>
+                            <span class="badge bg-info" th:text="${game.fps1} + ' FPS'">238 FPS</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-info" th:text="${game.fps2} + ' FPS'">412 FPS</span>
+                        </td>
+                        <td>
+                            <span th:if="${game.diff > 0}" class="badge bg-success">
+                                ⬆ <span th:text="${comparisonResult.gpu2.modelName}">RTX 5060</span>
+                                <br>
+                                <small th:text="'+' + ${game.diff} + ' FPS (' + ${#numbers.formatDecimal(game.diffPercent, 1, 1)} + '%)'">+12 FPS (2.2%)</small>
+                            </span>
+
+                            <span th:if="${game.diff < 0}" class="badge bg-danger">
+                                ⬇ <span th:text="${comparisonResult.gpu1.modelName}">RX 7700</span>
+                                <br>
+                                <small th:text="${game.diff} + ' FPS (' + ${#numbers.formatDecimal(game.diffPercent, 1, 1)} + '%)'">-8 FPS (-17.4%)</small>
+                            </span>
+
+                            <span th:if="${game.diff == 0}" class="badge bg-secondary">Equal</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card bg-light mt-4 m-4 shadow">
+                <div class="card-body">
+                    <h4 class="card-title text-center mb-4 fw-bold">Summary:</h4>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-header bg-info text-white text-center">
+                                    <h5 class="mb-0 fw-bold" th:text="${comparisonResult.gpu1.modelName}">RTX 4070 12GB</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Average FPS</h6>
+                                        <h3 class="text-primary fw-bold">
+                                            <span th:text="${#numbers.formatDecimal(comparisonResult.avgFps1, 1, 0)}">165</span> FPS
+                                        </h3>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Price</h6>
+                                        <h3 class="text-danger fw-bold">
+                                            <th:block th:with="price=${priceMap[comparisonResult.gpu1.id]}">
+                                                <span th:if="${price != null and price.currentPrice != null}"
+                                                      th:text="${#numbers.formatDecimal(price.currentPrice, 0, 0)}">3600</span>
+                                                <span th:if="${price == null or price.currentPrice == null}"
+                                                      th:text="${#numbers.formatDecimal(comparisonResult.gpu1.launchPrice, 0, 0)}">3600</span>
+                                            </th:block>₪
+                                        </h3>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">FPS/₪</h6>
+                                        <h3 class="text-success fw-bold">
+                                            <span th:text="${#numbers.formatDecimal(comparisonResult.fpsPerShekel1, 1, 3)}">0.046</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 d-flex align-items-center justify-content-center">
+                            <h1 class="text-muted display-3"></h1>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-header bg-info text-white text-center">
+                                    <h5 class="mb-0 fw-bold" th:text="${comparisonResult.gpu2.modelName}">RTX 4070 Super</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Average FPS</h6>
+                                        <h3 class="text-primary fw-bold">
+                                            <span th:text="${#numbers.formatDecimal(comparisonResult.avgFps2, 1, 0)}">177</span> FPS
+                                        </h3>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">Price</h6>
+                                        <h3 class="text-danger fw-bold">
+                                            <th:block th:with="price=${priceMap[comparisonResult.gpu2.id]}">
+                                                <span th:if="${price != null and price.currentPrice != null}"
+                                                      th:text="${#numbers.formatDecimal(price.currentPrice, 0, 0)}">3850</span>
+                                                <span th:if="${price == null or price.currentPrice == null}"
+                                                      th:text="${#numbers.formatDecimal(comparisonResult.gpu2.launchPrice, 0, 0)}">3850</span>
+                                            </th:block>₪
+                                        </h3>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6 class="text-muted">FPS/₪</h6>
+                                        <h3 class="text-success fw-bold">
+                                            <span th:text="${#numbers.formatDecimal(comparisonResult.fpsPerShekel2, 1, 3)}">0.046</span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${comparisonResult.betterValue == 'Equal'}"
+                         class="alert alert-info text-center mt-4 shadow-sm border-0">
+                        <h5 class="mb-2 fw-bold">Equal Value for Money!</h5>
+                        <p class="mb-0">Both GPUs offer similar value - the decision depends on personal preference and budget.</p>
+                    </div>
+
+                    <div th:if="${comparisonResult.betterValue != 'Equal'}"
+                         class="alert alert-success text-center mt-4 shadow-sm border-0">
+                        <h5 class="mb-2 fw-bold">Best Value: <strong th:text="${comparisonResult.betterValue}">RTX 4070 Super</strong></h5>
+                        <p class="mb-0">More FPS per shekel - the best value for money!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${error != null}" class="alert alert-warning text-center shadow border-0">
+        <span th:text="${error}">Error</span>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+</style>
+</body>
+</html>

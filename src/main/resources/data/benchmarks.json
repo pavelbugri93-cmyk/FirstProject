@@ -1,0 +1,860 @@
+[
+    {
+        "gpu": "RTX 4060",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 1,
+        "recommended_resolution": "1080p High",
+        "price_ils": 1850,
+        "source_video": "https://www.youtube.com/watch?v=d-ig6o6AiXk",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 330,
+                "ultra": 190,
+                "res": "1080p",
+                "options": "Very High"
+            },
+            {
+                "game": "VALORANT",
+                "low": 522,
+                "ultra": 465,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 276,
+                "ultra": 130,
+                "res": "1080p",
+                "options": "Epic"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 96,
+                "res": "1080p",
+                "options": "ULTRA Ray Tracing ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 39,
+                "res": "1080p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 73,
+                "res": "1080p",
+                "options": "ULTRA Medium Textures"
+            },
+            {
+                "game": "RUST",
+                "low": null,
+                "ultra": 96,
+                "res": "1080p",
+                "options": "MAX"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 76,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 4060 TI",
+        "cpu": " Ryzen 5 7500F",
+        "tier": 2,
+        "recommended_resolution": "1080p Ultra / 1440p Medium",
+        "price_ils": 2650,
+        "source_video": "https://www.youtube.com/watch?v=UeWVca8CZx0&t=2087s",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 432,
+                "ultra": null,
+                "res": "1280x960",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 552,
+                "ultra": 596,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 366,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 90,
+                "res": "1080p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 44,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 94,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 150,
+                "ultra": 114,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 88,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 5060",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 2,
+        "recommended_resolution": "1080p Ultra / 1440p Medium",
+        "price_ils": 2100,
+        "source_video": "https://www.youtube.com/watch?v=hVlygKsFEmQ&t=6s",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 336,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 606,
+                "ultra": 674,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 404,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 94,
+                "res": "1080p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 37,
+                "res": "1080p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 84,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 184,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Low"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 100,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 5060 Ti 16GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 3,
+        "recommended_resolution": "1440p High / 1080p Ultra",
+        "price_ils": 2450,
+        "source_video": "https://www.youtube.com/watch?v=oWrBJUg-51M",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 238,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 488,
+                "ultra": 563,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 253,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 84,
+                "res": "1080p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 38,
+                "res": "1080p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 76,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 96,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Low"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 116,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 4070 12GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 3,
+        "recommended_resolution": "1440p High / 1080p Ultra",
+        "price_ils": 3600,
+        "source_video": "https://www.youtube.com/watch?v=PvozU0ITq-g",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 412,
+                "ultra": 212,
+                "res": "1440p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "VALORANT",
+                "low": 612,
+                "ultra": 556,
+                "res": "1440p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 296,
+                "ultra": null,
+                "res": "1440p",
+                "options": "Low"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 91,
+                "res": "1440p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 43,
+                "res": "1440p",
+                "options": "Very High"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 89,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": null,
+                "ultra": 96,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 69,
+                "res": "1440p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 4070 Super",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 4,
+        "recommended_resolution": "1440p Ultra / 4K Medium",
+        "price_ils": 3850,
+        "source_video": "https://www.youtube.com/watch?v=ib06jDutR9E",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 382,
+                "ultra": 228,
+                "res": "1440p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "VALORANT",
+                "low": 594,
+                "ultra": 568,
+                "res": "1440p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 322,
+                "ultra": 128,
+                "res": "1440p",
+                "options": "Epic"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 103,
+                "res": "1440p",
+                "options": "ULTRA MSAA X4"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 37,
+                "res": "1440p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 100,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": null,
+                "ultra": 125,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 76,
+                "res": "1440p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 5070",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 4,
+        "recommended_resolution": "1440p Ultra / 4K Medium",
+        "price_ils": 3100,
+        "source_video": "https://www.youtube.com/watch?v=rnLE5V39CCQ",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 382,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 526,
+                "ultra": 532,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 456,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 108,
+                "res": "1080p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 50,
+                "res": "1080p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 88,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 148,
+                "ultra": 122,
+                "res": "1080p",
+                "options": "MAX"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 123,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RTX 5070 TI",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 5,
+        "recommended_resolution": "4K High / 1440p Ultra",
+        "price_ils": 4200,
+        "source_video": "https://www.youtube.com/watch?v=dwp1ctQPQaU",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 328,
+                "ultra": null,
+                "res": "1920px1440p",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 542,
+                "ultra": 592,
+                "res": "1440p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 442,
+                "ultra": null,
+                "res": "1440p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 91,
+                "res": "1440p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 56,
+                "res": "1440p",
+                "options": "N/A"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 94,
+                "res": "1440p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": null,
+                "ultra": 166,
+                "res": "1440p",
+                "options": "Native"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 121,
+                "res": "1440p",
+                "options": "Native"
+            }
+        ]
+    },
+    {
+        "gpu": "RX 7600 8GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 1,
+        "recommended_resolution": "1080p High",
+        "price_ils": 1700,
+        "source_video": "https://www.youtube.com/watch?v=bfD5E1lZ9cA",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 300,
+                "ultra": 144,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "VALORANT",
+                "low": 534,
+                "ultra": 462,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 378,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 58,
+                "res": "1080p",
+                "options": "ULTRA MAX RT"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 36,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 75,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": null,
+                "ultra": 103,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 71,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RX 7600XT 16GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 2,
+        "recommended_resolution": "1080p Ultra / 1440p Medium",
+        "price_ils": 2300,
+        "source_video": "https://www.youtube.com/watch?v=ujmnIgk6B8g",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 284,
+                "ultra": 241,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "VALORANT",
+                "low": 516,
+                "ultra": 470,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "Fortnite",
+                "low": 302,
+                "ultra": 77,
+                "res": "1080p",
+                "options": "EPIC DX12"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 102,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 37,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 94,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 122,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Native"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 71,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RX 7700 XT 12GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 3,
+        "recommended_resolution": "1440p High / 1080p Ultra",
+        "price_ils": 2350,
+        "source_video": "https://www.youtube.com/watch?v=KVYayfzaosQ",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 322,
+                "ultra": 236,
+                "res": "1080p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "VALORANT",
+                "low": 518,
+                "ultra": 551,
+                "res": "1080p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 366,
+                "ultra": null,
+                "res": "1080p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 77,
+                "res": "1080p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 46,
+                "res": "1080p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 99,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": null,
+                "ultra": 84,
+                "res": "1080p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 108,
+                "res": "1080p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RX 9060 XT 16GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 3,
+        "recommended_resolution": "1440p High / 1080p Ultra",
+        "price_ils": 2800,
+        "source_video": "https://www.youtube.com/watch?v=l8_7y82TQp4",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 366,
+                "ultra": null,
+                "res": "1440p",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 544,
+                "ultra": 476,
+                "res": "1440p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 386,
+                "ultra": null,
+                "res": "1440p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 61,
+                "res": "1440p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 31,
+                "res": "1440p",
+                "options": "Very HIGH"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 68,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 102,
+                "ultra": null,
+                "res": "1440p",
+                "options": "Low"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 61,
+                "res": "1440p",
+                "options": "ULTRA"
+            }
+        ]
+    },
+    {
+        "gpu": "RX 9070 XT 16GB",
+        "cpu": "Ryzen 5 7500F",
+        "tier": 5,
+        "recommended_resolution": "4K High / 1440p Ultra",
+        "price_ils": 3900,
+        "source_video": "https://www.youtube.com/watch?v=FvSk51n3ICQ&t=1050s",
+        "benchmarks": [
+            {
+                "game": "CS 2.0",
+                "low": 273,
+                "ultra": null,
+                "res": "1280x960",
+                "options": "Low"
+            },
+            {
+                "game": "VALORANT",
+                "low": 491,
+                "ultra": 486,
+                "res": "1440p",
+                "options": "HIGH MSAA X2"
+            },
+            {
+                "game": "Fortnite",
+                "low": 452,
+                "ultra": null,
+                "res": "1440p",
+                "options": "Performance"
+            },
+            {
+                "game": "GTA 5 Enhanced",
+                "low": null,
+                "ultra": 104,
+                "res": "1440p",
+                "options": "RT ULTRA"
+            },
+            {
+                "game": "Black Myth: Wukong",
+                "low": null,
+                "ultra": 57,
+                "res": "1440p",
+                "options": "Cinematic"
+            },
+            {
+                "game": "Hogwarts Legacy",
+                "low": null,
+                "ultra": 99,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "RUST",
+                "low": 193,
+                "ultra": 147,
+                "res": "1440p",
+                "options": "ULTRA"
+            },
+            {
+                "game": "Cyberpunk",
+                "low": null,
+                "ultra": 98,
+                "res": "1440p",
+                "options": "ULTRA"
+            }
+        ]
+    }
+]
